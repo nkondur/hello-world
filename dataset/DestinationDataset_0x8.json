@@ -1,0 +1,33 @@
+{
+	"name": "DestinationDataset_0x8",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "POS_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "ORG_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "BK_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "ACCT_ID",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"tableName": "[dbo].[FT_O_POSN]"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

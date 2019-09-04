@@ -1,0 +1,393 @@
+{
+	"name": "OracleTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Oracle1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"structure": [
+			{
+				"name": "ACC_SYS_NO",
+				"type": "Double"
+			},
+			{
+				"name": "SHLR_TAX_ID",
+				"type": "Decimal"
+			},
+			{
+				"name": "ACC_NBR_LGCY",
+				"type": "String"
+			},
+			{
+				"name": "ACC_NBR_LGCY_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "INSTR_ID",
+				"type": "String"
+			},
+			{
+				"name": "ACC_REPR_SYS_NO",
+				"type": "Double"
+			},
+			{
+				"name": "ACC_AARL_ACCT_NBR",
+				"type": "Decimal"
+			},
+			{
+				"name": "SHLR_SYS_NO",
+				"type": "Double"
+			},
+			{
+				"name": "ACC_ID_DLR_ACCT",
+				"type": "String"
+			},
+			{
+				"name": "ACC_ID_DLR_ACCT_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "ACC_MATRIX_CD",
+				"type": "String"
+			},
+			{
+				"name": "ACC_OWNER_SOCIAL_CD",
+				"type": "String"
+			},
+			{
+				"name": "ACC_MAIL_CD",
+				"type": "String"
+			},
+			{
+				"name": "SHLR_CUST_NM_1",
+				"type": "String"
+			},
+			{
+				"name": "SHLR_CUST_NM_2",
+				"type": "String"
+			},
+			{
+				"name": "SHLR_CUST_NM_3",
+				"type": "String"
+			},
+			{
+				"name": "SHLR_CUST_NM_4",
+				"type": "String"
+			},
+			{
+				"name": "SHLR_DTOFBIRTH",
+				"type": "DateTime"
+			},
+			{
+				"name": "ADDR_DAY_TELEPHONE",
+				"type": "String"
+			},
+			{
+				"name": "ADDR_ALT_TELEPHONE",
+				"type": "String"
+			},
+			{
+				"name": "ACC_TELE_AUTH_ID",
+				"type": "String"
+			},
+			{
+				"name": "ACC_STATUS_CD",
+				"type": "String"
+			},
+			{
+				"name": "ACC_TYPE_CD",
+				"type": "String"
+			},
+			{
+				"name": "ACC_OPEN_DT",
+				"type": "DateTime"
+			},
+			{
+				"name": "ACC_MAINT_DT",
+				"type": "DateTime"
+			},
+			{
+				"name": "ACC_LST_VAL_TXN_DT",
+				"type": "DateTime"
+			},
+			{
+				"name": "POSN_ISSUED_SHARE_QTY",
+				"type": "Decimal"
+			},
+			{
+				"name": "POSN_UNISSUED_SHARE_QTY",
+				"type": "Decimal"
+			},
+			{
+				"name": "FARE_SHARE_BALANCE",
+				"type": "Double"
+			},
+			{
+				"name": "SHLR_NM_1",
+				"type": "String"
+			},
+			{
+				"name": "SHLR_NM_2",
+				"type": "String"
+			},
+			{
+				"name": "SHLR_NM_3",
+				"type": "String"
+			},
+			{
+				"name": "SHLR_NM_4",
+				"type": "String"
+			},
+			{
+				"name": "SHLR_NM_5",
+				"type": "String"
+			},
+			{
+				"name": "ADDR_DESC_LINE_5",
+				"type": "String"
+			},
+			{
+				"name": "SHLR_PERSON_TYPE_CD",
+				"type": "String"
+			},
+			{
+				"name": "ADDR_TR_STREET_NUMBER_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "ADDR_TR_STREET_NAME_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "ADDR_TR_STREET_QUALIF_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "ADDR_TR_STREET_DIR_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "ADDR_TR_STREET_TFARE_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "ADDR_TR_RURAL_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "ADDR_TR_CITY_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "ADDR_TR_STATE_CD_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "ADDR_TR_ZIP_CD_PLUS_FOUR_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "ADDR_TR_PROVINCE_CD_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "ADDR_TR_POSTAL_CD_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "ADDR_TR_COUNTRY_CD_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "SHLR_TR_FIRST_NAME_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "SHLR_TR_MIDDLE_NAME_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "SHLR_TR_LAST_NAME_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "SHLR_TR_NON_INDIV_NAME_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "ACC_DLR_CLRG_ID_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "ACC_DLR_TPA_ID_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "ACC_TRUST_ID_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "ACC_DELR_NBR",
+				"type": "String"
+			},
+			{
+				"name": "ACC_BRCH_NBR",
+				"type": "String"
+			},
+			{
+				"name": "ACC_REPR_NBR",
+				"type": "String"
+			},
+			{
+				"name": "ACC_DELR_SYS_NO",
+				"type": "Double"
+			},
+			{
+				"name": "ACC_BRCH_SYS_NO",
+				"type": "Double"
+			},
+			{
+				"name": "FND_FV_TA_NUMBER",
+				"type": "String"
+			},
+			{
+				"name": "FND_FV_TA_NUMBER_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "FND_FV_CUSIP_NUMBER",
+				"type": "String"
+			},
+			{
+				"name": "FND_FV_CUSIP_NUMBER_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "FND_FV_TICKER_SYMBOL",
+				"type": "String"
+			},
+			{
+				"name": "FND_FV_TICKER_SYMBOL_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "FND_FV_ISIN_NUM",
+				"type": "String"
+			},
+			{
+				"name": "FND_FV_ISIN_NUM_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "FND_FV_SMS_NUM",
+				"type": "String"
+			},
+			{
+				"name": "FND_FV_SMS_NUM_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "FND_FV_TITAN_NUM",
+				"type": "String"
+			},
+			{
+				"name": "FND_FV_TITAN_NUM_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "FND_FV_CDSC",
+				"type": "Double"
+			},
+			{
+				"name": "FND_FV_LEGAL_NAME",
+				"type": "String"
+			},
+			{
+				"name": "FND_FV_LEGAL_NAME_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "FND_FV_CLASS_NAME",
+				"type": "String"
+			},
+			{
+				"name": "FND_FV_CLASS_NAME_UPPER",
+				"type": "String"
+			},
+			{
+				"name": "SHFA_WHEN_CREATED",
+				"type": "DateTime"
+			},
+			{
+				"name": "SHFA_WHEN_UPDATED",
+				"type": "DateTime"
+			},
+			{
+				"name": "SHFA_WHO_CREATED",
+				"type": "String"
+			},
+			{
+				"name": "SHFA_WHO_UPDATED",
+				"type": "String"
+			},
+			{
+				"name": "SHFA_GEJL_START_TIME",
+				"type": "DateTime"
+			},
+			{
+				"name": "SHFA_GEJL_END_TIME",
+				"type": "DateTime"
+			},
+			{
+				"name": "ACCT_DTLS_WHEN_UPDATED",
+				"type": "DateTime"
+			},
+			{
+				"name": "SHLR_WHEN_UPDATED",
+				"type": "DateTime"
+			},
+			{
+				"name": "ADDR_WHEN_UPDATED",
+				"type": "DateTime"
+			},
+			{
+				"name": "POSN_WHEN_UPDATED",
+				"type": "DateTime"
+			},
+			{
+				"name": "ADDR_SYS_NO",
+				"type": "Double"
+			},
+			{
+				"name": "FUND_WHEN_UPDATED",
+				"type": "DateTime"
+			},
+			{
+				"name": "ACCT_ORG_ID",
+				"type": "String"
+			},
+			{
+				"name": "ACCT_BK_ID",
+				"type": "String"
+			},
+			{
+				"name": "ACCT_ACCT_ID_CHAR",
+				"type": "String"
+			},
+			{
+				"name": "FARE_YTD_PURCHASES",
+				"type": "Decimal"
+			},
+			{
+				"name": "FARE_YTD_REDEMPTIONS",
+				"type": "Decimal"
+			}
+		],
+		"typeProperties": {
+			"tableName": "\"GID_OWNER\".\"MV_SH_FUND_ACCT_LINK\""
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

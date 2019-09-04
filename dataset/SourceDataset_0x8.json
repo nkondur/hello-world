@@ -1,0 +1,33 @@
+{
+	"name": "SourceDataset_0x8",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Oracle1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"structure": [
+			{
+				"name": "POS_ID",
+				"type": "String"
+			},
+			{
+				"name": "ORG_ID",
+				"type": "String"
+			},
+			{
+				"name": "BK_ID",
+				"type": "String"
+			},
+			{
+				"name": "ACCT_ID",
+				"type": "String"
+			}
+		],
+		"typeProperties": {
+			"tableName": "\"GID_OWNER\".\"FT_O_POSN\""
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

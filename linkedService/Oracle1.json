@@ -1,0 +1,16 @@
+{
+	"name": "Oracle1",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "Oracle",
+		"typeProperties": {
+			"connectionString": "host=rcoextods-scan;port=1579;servicename=gidstg;user id=gid_owner",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIxY2JhNDkxNy1hZDU1LTQ5NjktODU1NS03ZTIwNmQ1MTlkOTEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "integrationRuntime1",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
