@@ -1,0 +1,134 @@
+{
+	"name": "DeltaLoadCopyMatviewsFromOnPrem",
+	"properties": {
+		"activities": [
+			{
+				"name": "LookupUSDEMatViews",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select * from dbo.LookupUSDEMatViews",
+							"type": "Expression"
+						}
+					},
+					"dataset": {
+						"referenceName": "DestinationDataset_0x8",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEachMatview",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "LookupUSDEMatViews",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('LookupUSDEMatViews').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "IncrementalCopyMatViews",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OracleSource",
+									"oracleReaderQuery": {
+										"value": "SELECT * FROM @{item().MatviewName} \nminus \nSELECT * FROM @{item().MatviewName_curr}",
+										"type": "Expression"
+									},
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"preCopyScript": {
+										"value": "truncate table @{item().Sink_Table_Upsert}",
+										"type": "Expression"
+									},
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "OracleTable1",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "SQL",
+									"type": "DatasetReference",
+									"parameters": {
+										"TableName": {
+											"value": "@{item().Sink_Table_Upsert}",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						},
+						{
+							"name": "Logging Metadata",
+							"type": "AppendVariable",
+							"dependsOn": [
+								{
+									"activity": "IncrementalCopyMatViews",
+									"dependencyConditions": [
+										"Completed"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "var_logging",
+								"value": "var_logging = \n@concat('IncrementalCopyMatViews|Copy|',\n,pipeline().DataFactory,'|'\n,activity('IncrementalCopyMatViews').Duration,'|'\n,activity('IncrementalCopyMatViews').Error,'|'\n,activity('IncrementalCopyMatViews').ExecutionDetails,'|'\n,activity('IncrementalCopyMatViews').ExecutionEndTime,'|'\n,activity('IncrementalCopyMatViews').ExecutionStartTime,'|'\n,activity('IncrementalCopyMatViews').JobId,'|'\n,activity('IncrementalCopyMatViews').Output,'|'\n,pipeline().Pipeline,'|'\n,activity('IncrementalCopyMatViews').ActivityRunId,'|'\n,activity('IncrementalCopyMatViews').Status,'|'\n,activity('IncrementalCopyMatViews').StatusCode)"
+							}
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"var_logging": {
+				"type": "Array",
+				"defaultValue": [
+					"1",
+					"2",
+					"3"
+				]
+			}
+		},
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
