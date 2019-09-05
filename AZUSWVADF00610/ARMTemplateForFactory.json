@@ -271,6 +271,160 @@
 										"referenceName": "SQL1",
 										"type": "LinkedServiceReference"
 									}
+								},
+								{
+									"name": "Logging SQL",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "Logging Metadata",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[sp_adf_pipeline_log_update]",
+										"storedProcedureParameters": {
+											"ActivityTask": {
+												"value": {
+													"value": "@split(item(),'|')[0]",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"ActivityTaskLogTime": {
+												"value": {
+													"value": "@split(item(),'|')[14]",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"ActivityType": {
+												"value": {
+													"value": "@split(item(),'|')[1]",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"DataFactory": {
+												"value": {
+													"value": "@split(item(),'|')[2]",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Duration": {
+												"value": {
+													"value": "@split(item(),'|')[3]",
+													"type": "Expression"
+												},
+												"type": "TimeSpan"
+											},
+											"Error": {
+												"value": {
+													"value": "@split(item(),'|')[4]",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"ExecutionDetails": {
+												"value": {
+													"value": "@split(item(),'|')[5]",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"ExecutionEndTime": {
+												"value": {
+													"value": "@split(item(),'|')[6]",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"ExecutionStartTime": {
+												"value": {
+													"value": "@split(item(),'|')[7]",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"JobId": {
+												"value": {
+													"value": "@split(item(),'|')[8]",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Output": {
+												"value": {
+													"value": "@split(item(),'|')[9]",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Pipeline": {
+												"value": {
+													"value": "@split(item(),'|')[10]",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"RunId": {
+												"value": {
+													"value": "@split(item(),'|')[11]",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Status": {
+												"value": {
+													"value": "@split(item(),'|')[12]",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"StatusCode": {
+												"value": {
+													"value": "@split(item(),'|')[13]",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "SQL1",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "Logging Metadata",
+									"type": "AppendVariable",
+									"dependsOn": [
+										{
+											"activity": "IncrementalCopyMatViews",
+											"dependencyConditions": [
+												"Completed"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "var_logging",
+										"value": {
+											"value": "var_logging = \n@concat('IncrementalCopyMatViews|Copy|',\n,pipeline().DataFactory,'|'\n,activity('IncrementalCopyMatViews').Duration,'|'\n,activity('IncrementalCopyMatViews').Error,'|'\n,activity('IncrementalCopyMatViews').ExecutionDetails,'|'\n,activity('IncrementalCopyMatViews').ExecutionEndTime,'|'\n,activity('IncrementalCopyMatViews').ExecutionStartTime,'|'\n,activity('IncrementalCopyMatViews').JobId,'|'\n,activity('IncrementalCopyMatViews').Output,'|'\n,pipeline().Pipeline,'|'\n,activity('IncrementalCopyMatViews').ActivityRunId,'|'\n,activity('IncrementalCopyMatViews').Status,'|'\n,activity('IncrementalCopyMatViews').StatusCode,'|'\n,activity('IncrementalCopyMatViews').ActivityTaskLogTime)",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
