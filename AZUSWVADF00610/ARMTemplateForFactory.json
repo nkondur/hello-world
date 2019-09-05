@@ -300,6 +300,94 @@
 													"type": "Expression"
 												},
 												"type": "String"
+											},
+											"ActivityType": {
+												"value": "IncrementalCopyMatViews",
+												"type": "String"
+											},
+											"DataFactory": {
+												"value": {
+													"value": "@pipeline().DataFactory",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Duration": {
+												"value": {
+													"value": "@activity('IncrementalCopyMatViews').Duration",
+													"type": "Expression"
+												},
+												"type": "TimeSpan"
+											},
+											"Error": {
+												"value": {
+													"value": "@activity('IncrementalCopyMatViews').Error",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"ExecutionDetails": {
+												"value": {
+													"value": "@activity('IncrementalCopyMatViews').ExecutionDetails",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"ExecutionEndTime": {
+												"value": {
+													"value": "@activity('IncrementalCopyMatViews').ExecutionEndTime",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"ExecutionStartTime": {
+												"value": {
+													"value": "@activity('IncrementalCopyMatViews').ExecutionStartTime",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"JobId": {
+												"value": {
+													"value": "@activity('IncrementalCopyMatViews').JobId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Output": {
+												"value": {
+													"value": "@activity('IncrementalCopyMatViews').Output",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Pipeline": {
+												"value": {
+													"value": "@pipeline().Pipeline",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"RunId": {
+												"value": {
+													"value": "@activity('IncrementalCopyMatViews').ActivityRunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Status": {
+												"value": {
+													"value": "@activity('IncrementalCopyMatViews').Status",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"StatusCode": {
+												"value": {
+													"value": "@activity('IncrementalCopyMatViews').StatusCode",
+													"type": "Expression"
+												},
+												"type": "String"
 											}
 										}
 									},
