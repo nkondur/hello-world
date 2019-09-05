@@ -164,105 +164,105 @@
 								"storedProcedureParameters": {
 									"ActivityTask": {
 										"value": {
-											"value": "@split(item(),'|')[0]",
+											"value": "split(@item(),'|')[0]",
 											"type": "Expression"
 										},
 										"type": "String"
 									},
 									"ActivityTaskLogTime": {
 										"value": {
-											"value": "@split(item(),'|')[14]",
+											"value": "split(@item(),'|')[14]",
 											"type": "Expression"
 										},
 										"type": "DateTime"
 									},
 									"ActivityType": {
 										"value": {
-											"value": "@split(item(),'|')[1]",
+											"value": "split(@item(),'|')[1]",
 											"type": "Expression"
 										},
 										"type": "String"
 									},
 									"DataFactory": {
 										"value": {
-											"value": "@split(item(),'|')[2]",
+											"value": "split(@item(),'|')[2]",
 											"type": "Expression"
 										},
 										"type": "String"
 									},
 									"Duration": {
 										"value": {
-											"value": "@split(item(),'|')[3]",
+											"value": "split(@item(),'|')[3]",
 											"type": "Expression"
 										},
 										"type": "TimeSpan"
 									},
 									"Error": {
 										"value": {
-											"value": "@split(item(),'|')[4]",
+											"value": "split(@item(),'|')[4]",
 											"type": "Expression"
 										},
 										"type": "String"
 									},
 									"ExecutionDetails": {
 										"value": {
-											"value": "@split(item(),'|')[5]",
+											"value": "split(@item(),'|')[5]",
 											"type": "Expression"
 										},
 										"type": "String"
 									},
 									"ExecutionEndTime": {
 										"value": {
-											"value": "@split(item(),'|')[6]",
+											"value": "split(@item(),'|')[6]",
 											"type": "Expression"
 										},
 										"type": "DateTime"
 									},
 									"ExecutionStartTime": {
 										"value": {
-											"value": "@split(item(),'|')[7]",
+											"value": "split(@item(),'|')[7]",
 											"type": "Expression"
 										},
 										"type": "DateTime"
 									},
 									"JobId": {
 										"value": {
-											"value": "@split(item(),'|')[8]",
+											"value": "split(@item(),'|')[8]",
 											"type": "Expression"
 										},
 										"type": "String"
 									},
 									"Output": {
 										"value": {
-											"value": "@split(item(),'|')[9]",
+											"value": "split(@item(),'|')[9]",
 											"type": "Expression"
 										},
 										"type": "String"
 									},
 									"Pipeline": {
 										"value": {
-											"value": "@split(item(),'|')[10]",
+											"value": "split(@item(),'|')[10]",
 											"type": "Expression"
 										},
 										"type": "String"
 									},
 									"RunId": {
 										"value": {
-											"value": "@split(item(),'|')[11]",
+											"value": "split(@item(),'|')[11]",
 											"type": "Expression"
 										},
 										"type": "String"
 									},
 									"Status": {
 										"value": {
-											"value": "@split(item(),'|')[12]",
+											"value": "split(@item(),'|')[12]",
 											"type": "Expression"
 										},
 										"type": "String"
 									},
 									"StatusCode": {
 										"value": {
-											"value": "@split(item(),'|')[13]",
+											"value": "split(@item(),'|')[13]",
 											"type": "Expression"
 										},
 										"type": "String"
