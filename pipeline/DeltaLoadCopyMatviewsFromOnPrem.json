@@ -145,9 +145,9 @@
 							"type": "SqlServerStoredProcedure",
 							"dependsOn": [
 								{
-									"activity": "Logging Metadata",
+									"activity": "IncrementalCopyMatViews",
 									"dependencyConditions": [
-										"Succeeded"
+										"Completed"
 									]
 								}
 							],
@@ -164,7 +164,7 @@
 								"storedProcedureParameters": {
 									"ActivityTask": {
 										"value": {
-											"value": "@split(string('var_logging'),'|')[0]",
+											"value": "activity('IncrementalCopyMatViews').Status",
 											"type": "Expression"
 										},
 										"type": "String"
@@ -174,26 +174,6 @@
 							"linkedServiceName": {
 								"referenceName": "SQL1",
 								"type": "LinkedServiceReference"
-							}
-						},
-						{
-							"name": "Logging Metadata",
-							"type": "AppendVariable",
-							"dependsOn": [
-								{
-									"activity": "IncrementalCopyMatViews",
-									"dependencyConditions": [
-										"Completed"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "var_logging",
-								"value": {
-									"value": "var_logging = @concat('IncrementalCopyMatViews|Copy|',,pipeline().DataFactory,'|',activity('IncrementalCopyMatViews').Duration,'|',activity('IncrementalCopyMatViews').Error,'|',activity('IncrementalCopyMatViews').ExecutionDetails,'|',activity('IncrementalCopyMatViews').ExecutionEndTime,'|',activity('IncrementalCopyMatViews').ExecutionStartTime,'|',activity('IncrementalCopyMatViews').JobId,'|',activity('IncrementalCopyMatViews').Output,'|',pipeline().Pipeline,'|',activity('IncrementalCopyMatViews').ActivityRunId,'|',activity('IncrementalCopyMatViews').Status,'|',activity('IncrementalCopyMatViews').StatusCode)",
-									"type": "Expression"
-								}
 							}
 						}
 					]
