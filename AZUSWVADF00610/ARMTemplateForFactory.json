@@ -296,7 +296,7 @@
 										"storedProcedureParameters": {
 											"ActivityTask": {
 												"value": {
-													"value": "@split(item(),'|')[0]",
+													"value": "split(@item(),'|')[0]",
 													"type": "Expression"
 												},
 												"type": "String"
