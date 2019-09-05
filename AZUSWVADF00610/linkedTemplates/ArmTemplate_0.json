@@ -1,0 +1,2205 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory Name",
+			"defaultValue": "AZUSWVADF00610"
+		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
+		},
+		"SQL_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SQL'"
+		},
+		"SQL1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SQL1'"
+		},
+		"Oracle1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Oracle1'"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabase1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SQL')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"parameters": {
+					"TableName": {
+						"type": "string",
+						"defaultValue": "Dummy"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('SQL_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SQL1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('SQL1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/integrationRuntime1')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ACC_SYS_NO",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "SHLR_TAX_ID",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "ACC_NBR_LGCY",
+						"type": "varchar"
+					},
+					{
+						"name": "ACC_NBR_LGCY_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "INSTR_ID",
+						"type": "char"
+					},
+					{
+						"name": "ACC_REPR_SYS_NO",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "ACC_AARL_ACCT_NBR",
+						"type": "decimal",
+						"precision": 15,
+						"scale": 0
+					},
+					{
+						"name": "SHLR_SYS_NO",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "ACC_ID_DLR_ACCT",
+						"type": "varchar"
+					},
+					{
+						"name": "ACC_ID_DLR_ACCT_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "ACC_MATRIX_CD",
+						"type": "varchar"
+					},
+					{
+						"name": "ACC_OWNER_SOCIAL_CD",
+						"type": "varchar"
+					},
+					{
+						"name": "ACC_MAIL_CD",
+						"type": "varchar"
+					},
+					{
+						"name": "SHLR_CUST_NM_1",
+						"type": "varchar"
+					},
+					{
+						"name": "SHLR_CUST_NM_2",
+						"type": "varchar"
+					},
+					{
+						"name": "SHLR_CUST_NM_3",
+						"type": "varchar"
+					},
+					{
+						"name": "SHLR_CUST_NM_4",
+						"type": "varchar"
+					},
+					{
+						"name": "SHLR_DTOFBIRTH",
+						"type": "date"
+					},
+					{
+						"name": "ADDR_DAY_TELEPHONE",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDR_ALT_TELEPHONE",
+						"type": "varchar"
+					},
+					{
+						"name": "ACC_TELE_AUTH_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "ACC_STATUS_CD",
+						"type": "varchar"
+					},
+					{
+						"name": "ACC_TYPE_CD",
+						"type": "varchar"
+					},
+					{
+						"name": "ACC_OPEN_DT",
+						"type": "date"
+					},
+					{
+						"name": "ACC_MAINT_DT",
+						"type": "date"
+					},
+					{
+						"name": "ACC_LST_VAL_TXN_DT",
+						"type": "date"
+					},
+					{
+						"name": "POSN_ISSUED_SHARE_QTY",
+						"type": "decimal",
+						"precision": 26,
+						"scale": 11
+					},
+					{
+						"name": "POSN_UNISSUED_SHARE_QTY",
+						"type": "decimal",
+						"precision": 26,
+						"scale": 11
+					},
+					{
+						"name": "FARE_SHARE_BALANCE",
+						"type": "decimal",
+						"precision": 26,
+						"scale": 11
+					},
+					{
+						"name": "SHLR_NM_1",
+						"type": "varchar"
+					},
+					{
+						"name": "SHLR_NM_2",
+						"type": "varchar"
+					},
+					{
+						"name": "SHLR_NM_3",
+						"type": "varchar"
+					},
+					{
+						"name": "SHLR_NM_4",
+						"type": "varchar"
+					},
+					{
+						"name": "SHLR_NM_5",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDR_DESC_LINE_5",
+						"type": "varchar"
+					},
+					{
+						"name": "SHLR_PERSON_TYPE_CD",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDR_TR_STREET_NUMBER_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDR_TR_STREET_NAME_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDR_TR_STREET_QUALIF_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDR_TR_STREET_DIR_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDR_TR_STREET_TFARE_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDR_TR_RURAL_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDR_TR_CITY_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDR_TR_STATE_CD_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDR_TR_ZIP_CD_PLUS_FOUR_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDR_TR_PROVINCE_CD_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDR_TR_POSTAL_CD_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDR_TR_COUNTRY_CD_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "SHLR_TR_FIRST_NAME_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "SHLR_TR_MIDDLE_NAME_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "SHLR_TR_LAST_NAME_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "SHLR_TR_NON_INDIV_NAME_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "ACC_DLR_CLRG_ID_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "ACC_DLR_TPA_ID_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "ACC_TRUST_ID_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "ACC_DELR_NBR",
+						"type": "varchar"
+					},
+					{
+						"name": "ACC_BRCH_NBR",
+						"type": "varchar"
+					},
+					{
+						"name": "ACC_REPR_NBR",
+						"type": "varchar"
+					},
+					{
+						"name": "ACC_DELR_SYS_NO",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "ACC_BRCH_SYS_NO",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "FND_FV_TA_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "FND_FV_TA_NUMBER_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "FND_FV_CUSIP_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "FND_FV_CUSIP_NUMBER_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "FND_FV_TICKER_SYMBOL",
+						"type": "varchar"
+					},
+					{
+						"name": "FND_FV_TICKER_SYMBOL_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "FND_FV_ISIN_NUM",
+						"type": "varchar"
+					},
+					{
+						"name": "FND_FV_ISIN_NUM_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "FND_FV_SMS_NUM",
+						"type": "varchar"
+					},
+					{
+						"name": "FND_FV_SMS_NUM_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "FND_FV_TITAN_NUM",
+						"type": "varchar"
+					},
+					{
+						"name": "FND_FV_TITAN_NUM_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "FND_FV_CDSC",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 0
+					},
+					{
+						"name": "FND_FV_LEGAL_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "FND_FV_LEGAL_NAME_UPPER",
+						"type": "varchar"
+					},
+					{
+						"name": "FND_FV_CLASS_NAME",
+						"type": "char"
+					},
+					{
+						"name": "FND_FV_CLASS_NAME_UPPER",
+						"type": "char"
+					},
+					{
+						"name": "SHFA_WHEN_CREATED",
+						"type": "date"
+					},
+					{
+						"name": "SHFA_WHEN_UPDATED",
+						"type": "date"
+					},
+					{
+						"name": "SHFA_WHO_CREATED",
+						"type": "varchar"
+					},
+					{
+						"name": "SHFA_WHO_UPDATED",
+						"type": "varchar"
+					},
+					{
+						"name": "SHFA_GEJL_START_TIME",
+						"type": "date"
+					},
+					{
+						"name": "SHFA_GEJL_END_TIME",
+						"type": "date"
+					},
+					{
+						"name": "ACCT_DTLS_WHEN_UPDATED",
+						"type": "date"
+					},
+					{
+						"name": "SHLR_WHEN_UPDATED",
+						"type": "date"
+					},
+					{
+						"name": "ADDR_WHEN_UPDATED",
+						"type": "date"
+					},
+					{
+						"name": "POSN_WHEN_UPDATED",
+						"type": "date"
+					},
+					{
+						"name": "ADDR_SYS_NO",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FUND_WHEN_UPDATED",
+						"type": "date"
+					},
+					{
+						"name": "ACCT_ORG_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "ACCT_BK_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "ACCT_ACCT_ID_CHAR",
+						"type": "varchar"
+					},
+					{
+						"name": "FARE_YTD_PURCHASES",
+						"type": "decimal",
+						"precision": 26,
+						"scale": 15
+					},
+					{
+						"name": "FARE_YTD_REDEMPTIONS",
+						"type": "decimal",
+						"precision": 26,
+						"scale": 15
+					}
+				],
+				"typeProperties": {
+					"tableName": "[[dbo].[MV_SH_FUND_ACCT_LINK]"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_0x8')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "POS_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "ORG_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "BK_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "ACCT_ID",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "[[dbo].[FT_O_POSN]"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SQL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SQL1",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"TableName": {
+						"type": "string",
+						"defaultValue": "1"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": {
+						"value": "dbo",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@{dataset().TableName}",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SQL1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Oracle1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "Oracle",
+				"typeProperties": {
+					"connectionString": "[parameters('Oracle1_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "integrationRuntime1",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntime1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/OracleTable1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Oracle1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "OracleTable",
+				"structure": [
+					{
+						"name": "ACC_SYS_NO",
+						"type": "Double"
+					},
+					{
+						"name": "SHLR_TAX_ID",
+						"type": "Decimal"
+					},
+					{
+						"name": "ACC_NBR_LGCY",
+						"type": "String"
+					},
+					{
+						"name": "ACC_NBR_LGCY_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "INSTR_ID",
+						"type": "String"
+					},
+					{
+						"name": "ACC_REPR_SYS_NO",
+						"type": "Double"
+					},
+					{
+						"name": "ACC_AARL_ACCT_NBR",
+						"type": "Decimal"
+					},
+					{
+						"name": "SHLR_SYS_NO",
+						"type": "Double"
+					},
+					{
+						"name": "ACC_ID_DLR_ACCT",
+						"type": "String"
+					},
+					{
+						"name": "ACC_ID_DLR_ACCT_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "ACC_MATRIX_CD",
+						"type": "String"
+					},
+					{
+						"name": "ACC_OWNER_SOCIAL_CD",
+						"type": "String"
+					},
+					{
+						"name": "ACC_MAIL_CD",
+						"type": "String"
+					},
+					{
+						"name": "SHLR_CUST_NM_1",
+						"type": "String"
+					},
+					{
+						"name": "SHLR_CUST_NM_2",
+						"type": "String"
+					},
+					{
+						"name": "SHLR_CUST_NM_3",
+						"type": "String"
+					},
+					{
+						"name": "SHLR_CUST_NM_4",
+						"type": "String"
+					},
+					{
+						"name": "SHLR_DTOFBIRTH",
+						"type": "DateTime"
+					},
+					{
+						"name": "ADDR_DAY_TELEPHONE",
+						"type": "String"
+					},
+					{
+						"name": "ADDR_ALT_TELEPHONE",
+						"type": "String"
+					},
+					{
+						"name": "ACC_TELE_AUTH_ID",
+						"type": "String"
+					},
+					{
+						"name": "ACC_STATUS_CD",
+						"type": "String"
+					},
+					{
+						"name": "ACC_TYPE_CD",
+						"type": "String"
+					},
+					{
+						"name": "ACC_OPEN_DT",
+						"type": "DateTime"
+					},
+					{
+						"name": "ACC_MAINT_DT",
+						"type": "DateTime"
+					},
+					{
+						"name": "ACC_LST_VAL_TXN_DT",
+						"type": "DateTime"
+					},
+					{
+						"name": "POSN_ISSUED_SHARE_QTY",
+						"type": "Decimal"
+					},
+					{
+						"name": "POSN_UNISSUED_SHARE_QTY",
+						"type": "Decimal"
+					},
+					{
+						"name": "FARE_SHARE_BALANCE",
+						"type": "Double"
+					},
+					{
+						"name": "SHLR_NM_1",
+						"type": "String"
+					},
+					{
+						"name": "SHLR_NM_2",
+						"type": "String"
+					},
+					{
+						"name": "SHLR_NM_3",
+						"type": "String"
+					},
+					{
+						"name": "SHLR_NM_4",
+						"type": "String"
+					},
+					{
+						"name": "SHLR_NM_5",
+						"type": "String"
+					},
+					{
+						"name": "ADDR_DESC_LINE_5",
+						"type": "String"
+					},
+					{
+						"name": "SHLR_PERSON_TYPE_CD",
+						"type": "String"
+					},
+					{
+						"name": "ADDR_TR_STREET_NUMBER_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "ADDR_TR_STREET_NAME_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "ADDR_TR_STREET_QUALIF_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "ADDR_TR_STREET_DIR_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "ADDR_TR_STREET_TFARE_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "ADDR_TR_RURAL_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "ADDR_TR_CITY_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "ADDR_TR_STATE_CD_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "ADDR_TR_ZIP_CD_PLUS_FOUR_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "ADDR_TR_PROVINCE_CD_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "ADDR_TR_POSTAL_CD_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "ADDR_TR_COUNTRY_CD_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "SHLR_TR_FIRST_NAME_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "SHLR_TR_MIDDLE_NAME_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "SHLR_TR_LAST_NAME_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "SHLR_TR_NON_INDIV_NAME_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "ACC_DLR_CLRG_ID_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "ACC_DLR_TPA_ID_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "ACC_TRUST_ID_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "ACC_DELR_NBR",
+						"type": "String"
+					},
+					{
+						"name": "ACC_BRCH_NBR",
+						"type": "String"
+					},
+					{
+						"name": "ACC_REPR_NBR",
+						"type": "String"
+					},
+					{
+						"name": "ACC_DELR_SYS_NO",
+						"type": "Double"
+					},
+					{
+						"name": "ACC_BRCH_SYS_NO",
+						"type": "Double"
+					},
+					{
+						"name": "FND_FV_TA_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "FND_FV_TA_NUMBER_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "FND_FV_CUSIP_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "FND_FV_CUSIP_NUMBER_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "FND_FV_TICKER_SYMBOL",
+						"type": "String"
+					},
+					{
+						"name": "FND_FV_TICKER_SYMBOL_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "FND_FV_ISIN_NUM",
+						"type": "String"
+					},
+					{
+						"name": "FND_FV_ISIN_NUM_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "FND_FV_SMS_NUM",
+						"type": "String"
+					},
+					{
+						"name": "FND_FV_SMS_NUM_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "FND_FV_TITAN_NUM",
+						"type": "String"
+					},
+					{
+						"name": "FND_FV_TITAN_NUM_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "FND_FV_CDSC",
+						"type": "Double"
+					},
+					{
+						"name": "FND_FV_LEGAL_NAME",
+						"type": "String"
+					},
+					{
+						"name": "FND_FV_LEGAL_NAME_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "FND_FV_CLASS_NAME",
+						"type": "String"
+					},
+					{
+						"name": "FND_FV_CLASS_NAME_UPPER",
+						"type": "String"
+					},
+					{
+						"name": "SHFA_WHEN_CREATED",
+						"type": "DateTime"
+					},
+					{
+						"name": "SHFA_WHEN_UPDATED",
+						"type": "DateTime"
+					},
+					{
+						"name": "SHFA_WHO_CREATED",
+						"type": "String"
+					},
+					{
+						"name": "SHFA_WHO_UPDATED",
+						"type": "String"
+					},
+					{
+						"name": "SHFA_GEJL_START_TIME",
+						"type": "DateTime"
+					},
+					{
+						"name": "SHFA_GEJL_END_TIME",
+						"type": "DateTime"
+					},
+					{
+						"name": "ACCT_DTLS_WHEN_UPDATED",
+						"type": "DateTime"
+					},
+					{
+						"name": "SHLR_WHEN_UPDATED",
+						"type": "DateTime"
+					},
+					{
+						"name": "ADDR_WHEN_UPDATED",
+						"type": "DateTime"
+					},
+					{
+						"name": "POSN_WHEN_UPDATED",
+						"type": "DateTime"
+					},
+					{
+						"name": "ADDR_SYS_NO",
+						"type": "Double"
+					},
+					{
+						"name": "FUND_WHEN_UPDATED",
+						"type": "DateTime"
+					},
+					{
+						"name": "ACCT_ORG_ID",
+						"type": "String"
+					},
+					{
+						"name": "ACCT_BK_ID",
+						"type": "String"
+					},
+					{
+						"name": "ACCT_ACCT_ID_CHAR",
+						"type": "String"
+					},
+					{
+						"name": "FARE_YTD_PURCHASES",
+						"type": "Decimal"
+					},
+					{
+						"name": "FARE_YTD_REDEMPTIONS",
+						"type": "Decimal"
+					}
+				],
+				"typeProperties": {
+					"tableName": "\"GID_OWNER\".\"MV_SH_FUND_ACCT_LINK\""
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Oracle1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_0x8')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Oracle1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "OracleTable",
+				"structure": [
+					{
+						"name": "POS_ID",
+						"type": "String"
+					},
+					{
+						"name": "ORG_ID",
+						"type": "String"
+					},
+					{
+						"name": "BK_ID",
+						"type": "String"
+					},
+					{
+						"name": "ACCT_ID",
+						"type": "String"
+					}
+				],
+				"typeProperties": {
+					"tableName": "\"GID_OWNER\".\"FT_O_POSN\""
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Oracle1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CopyPipeline_0x8')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_0x8",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Destination",
+								"value": "[[dbo].[gid_dealers]"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "OracleSource",
+								"oracleReaderQuery": "select pos_id,org_id,bk_id,acct_id from ft_o_posn",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "POS_ID"
+										},
+										"sink": {
+											"name": "POS_ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ORG_ID"
+										},
+										"sink": {
+											"name": "ORG_ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BK_ID"
+										},
+										"sink": {
+											"name": "BK_ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACCT_ID"
+										},
+										"sink": {
+											"name": "ACCT_ID",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_0x8",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_0x8",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceDataset_0x8')]",
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_0x8')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DeltaLoadCopyMatviewsFromOnPrem')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupUSDEMatViews",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select * from dbo.LookupUSDEMatViews",
+									"type": "Expression"
+								}
+							},
+							"dataset": {
+								"referenceName": "DestinationDataset_0x8",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEachMatview",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "LookupUSDEMatViews",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('LookupUSDEMatViews').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "IncrementalCopyMatViews",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "OracleSource",
+											"oracleReaderQuery": {
+												"value": "SELECT * FROM @{item().MatviewName} \nminus \nSELECT * FROM @{item().MatviewName_curr}",
+												"type": "Expression"
+											},
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "AzureSqlSink",
+											"preCopyScript": {
+												"value": "truncate table @{item().Sink_Table_Upsert}",
+												"type": "Expression"
+											},
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "OracleTable1",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "SQL",
+											"type": "DatasetReference",
+											"parameters": {
+												"TableName": {
+													"value": "@{item().Sink_Table_Upsert}",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								},
+								{
+									"name": "spMergeStageToTarget",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "IncrementalCopyMatViews",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[spMergeStageToTarget]",
+										"storedProcedureParameters": {
+											"dst": {
+												"value": {
+													"value": "@{item().MatviewName}",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"src": {
+												"value": {
+													"value": "@{Item().Sink_Table_Upsert}",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "SQL1",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						}
+					}
+				],
+				"variables": {
+					"var_logging": {
+						"type": "Array",
+						"defaultValue": [
+							"1",
+							"2",
+							"3"
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_0x8')]",
+				"[concat(variables('factoryId'), '/datasets/OracleTable1')]",
+				"[concat(variables('factoryId'), '/datasets/SQL')]",
+				"[concat(variables('factoryId'), '/linkedServices/SQL1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy Data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "OracleSource",
+								"oracleReaderQuery": "SELECT * FROM MV_SH_FUND_ACCT_LINK\nMINUS\nSELECT * FROM GID_SH_FUND_ACCT_LINK_CURR",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"parallelCopies": 10,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ACC_SYS_NO"
+										},
+										"sink": {
+											"name": "ACC_SYS_NO",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "SHLR_TAX_ID"
+										},
+										"sink": {
+											"name": "SHLR_TAX_ID",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_NBR_LGCY"
+										},
+										"sink": {
+											"name": "ACC_NBR_LGCY",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_NBR_LGCY_UPPER"
+										},
+										"sink": {
+											"name": "ACC_NBR_LGCY_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "INSTR_ID"
+										},
+										"sink": {
+											"name": "INSTR_ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_REPR_SYS_NO"
+										},
+										"sink": {
+											"name": "ACC_REPR_SYS_NO",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_AARL_ACCT_NBR"
+										},
+										"sink": {
+											"name": "ACC_AARL_ACCT_NBR",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "SHLR_SYS_NO"
+										},
+										"sink": {
+											"name": "SHLR_SYS_NO",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_ID_DLR_ACCT"
+										},
+										"sink": {
+											"name": "ACC_ID_DLR_ACCT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_ID_DLR_ACCT_UPPER"
+										},
+										"sink": {
+											"name": "ACC_ID_DLR_ACCT_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_MATRIX_CD"
+										},
+										"sink": {
+											"name": "ACC_MATRIX_CD",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_OWNER_SOCIAL_CD"
+										},
+										"sink": {
+											"name": "ACC_OWNER_SOCIAL_CD",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_MAIL_CD"
+										},
+										"sink": {
+											"name": "ACC_MAIL_CD",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SHLR_CUST_NM_1"
+										},
+										"sink": {
+											"name": "SHLR_CUST_NM_1",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SHLR_CUST_NM_2"
+										},
+										"sink": {
+											"name": "SHLR_CUST_NM_2",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SHLR_CUST_NM_3"
+										},
+										"sink": {
+											"name": "SHLR_CUST_NM_3",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SHLR_CUST_NM_4"
+										},
+										"sink": {
+											"name": "SHLR_CUST_NM_4",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SHLR_DTOFBIRTH"
+										},
+										"sink": {
+											"name": "SHLR_DTOFBIRTH",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDR_DAY_TELEPHONE"
+										},
+										"sink": {
+											"name": "ADDR_DAY_TELEPHONE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDR_ALT_TELEPHONE"
+										},
+										"sink": {
+											"name": "ADDR_ALT_TELEPHONE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_TELE_AUTH_ID"
+										},
+										"sink": {
+											"name": "ACC_TELE_AUTH_ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_STATUS_CD"
+										},
+										"sink": {
+											"name": "ACC_STATUS_CD",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_TYPE_CD"
+										},
+										"sink": {
+											"name": "ACC_TYPE_CD",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_OPEN_DT"
+										},
+										"sink": {
+											"name": "ACC_OPEN_DT",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_MAINT_DT"
+										},
+										"sink": {
+											"name": "ACC_MAINT_DT",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_LST_VAL_TXN_DT"
+										},
+										"sink": {
+											"name": "ACC_LST_VAL_TXN_DT",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "POSN_ISSUED_SHARE_QTY"
+										},
+										"sink": {
+											"name": "POSN_ISSUED_SHARE_QTY",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "POSN_UNISSUED_SHARE_QTY"
+										},
+										"sink": {
+											"name": "POSN_UNISSUED_SHARE_QTY",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "FARE_SHARE_BALANCE"
+										},
+										"sink": {
+											"name": "FARE_SHARE_BALANCE",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "SHLR_NM_1"
+										},
+										"sink": {
+											"name": "SHLR_NM_1",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SHLR_NM_2"
+										},
+										"sink": {
+											"name": "SHLR_NM_2",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SHLR_NM_3"
+										},
+										"sink": {
+											"name": "SHLR_NM_3",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SHLR_NM_4"
+										},
+										"sink": {
+											"name": "SHLR_NM_4",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SHLR_NM_5"
+										},
+										"sink": {
+											"name": "SHLR_NM_5",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDR_DESC_LINE_5"
+										},
+										"sink": {
+											"name": "ADDR_DESC_LINE_5",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SHLR_PERSON_TYPE_CD"
+										},
+										"sink": {
+											"name": "SHLR_PERSON_TYPE_CD",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDR_TR_STREET_NUMBER_UPPER"
+										},
+										"sink": {
+											"name": "ADDR_TR_STREET_NUMBER_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDR_TR_STREET_NAME_UPPER"
+										},
+										"sink": {
+											"name": "ADDR_TR_STREET_NAME_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDR_TR_STREET_QUALIF_UPPER"
+										},
+										"sink": {
+											"name": "ADDR_TR_STREET_QUALIF_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDR_TR_STREET_DIR_UPPER"
+										},
+										"sink": {
+											"name": "ADDR_TR_STREET_DIR_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDR_TR_STREET_TFARE_UPPER"
+										},
+										"sink": {
+											"name": "ADDR_TR_STREET_TFARE_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDR_TR_RURAL_UPPER"
+										},
+										"sink": {
+											"name": "ADDR_TR_RURAL_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDR_TR_CITY_UPPER"
+										},
+										"sink": {
+											"name": "ADDR_TR_CITY_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDR_TR_STATE_CD_UPPER"
+										},
+										"sink": {
+											"name": "ADDR_TR_STATE_CD_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDR_TR_ZIP_CD_PLUS_FOUR_UPPER"
+										},
+										"sink": {
+											"name": "ADDR_TR_ZIP_CD_PLUS_FOUR_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDR_TR_PROVINCE_CD_UPPER"
+										},
+										"sink": {
+											"name": "ADDR_TR_PROVINCE_CD_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDR_TR_POSTAL_CD_UPPER"
+										},
+										"sink": {
+											"name": "ADDR_TR_POSTAL_CD_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDR_TR_COUNTRY_CD_UPPER"
+										},
+										"sink": {
+											"name": "ADDR_TR_COUNTRY_CD_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SHLR_TR_FIRST_NAME_UPPER"
+										},
+										"sink": {
+											"name": "SHLR_TR_FIRST_NAME_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SHLR_TR_MIDDLE_NAME_UPPER"
+										},
+										"sink": {
+											"name": "SHLR_TR_MIDDLE_NAME_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SHLR_TR_LAST_NAME_UPPER"
+										},
+										"sink": {
+											"name": "SHLR_TR_LAST_NAME_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SHLR_TR_NON_INDIV_NAME_UPPER"
+										},
+										"sink": {
+											"name": "SHLR_TR_NON_INDIV_NAME_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_DLR_CLRG_ID_UPPER"
+										},
+										"sink": {
+											"name": "ACC_DLR_CLRG_ID_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_DLR_TPA_ID_UPPER"
+										},
+										"sink": {
+											"name": "ACC_DLR_TPA_ID_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_TRUST_ID_UPPER"
+										},
+										"sink": {
+											"name": "ACC_TRUST_ID_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_DELR_NBR"
+										},
+										"sink": {
+											"name": "ACC_DELR_NBR",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_BRCH_NBR"
+										},
+										"sink": {
+											"name": "ACC_BRCH_NBR",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_REPR_NBR"
+										},
+										"sink": {
+											"name": "ACC_REPR_NBR",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_DELR_SYS_NO"
+										},
+										"sink": {
+											"name": "ACC_DELR_SYS_NO",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "ACC_BRCH_SYS_NO"
+										},
+										"sink": {
+											"name": "ACC_BRCH_SYS_NO",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "FND_FV_TA_NUMBER"
+										},
+										"sink": {
+											"name": "FND_FV_TA_NUMBER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FND_FV_TA_NUMBER_UPPER"
+										},
+										"sink": {
+											"name": "FND_FV_TA_NUMBER_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FND_FV_CUSIP_NUMBER"
+										},
+										"sink": {
+											"name": "FND_FV_CUSIP_NUMBER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FND_FV_CUSIP_NUMBER_UPPER"
+										},
+										"sink": {
+											"name": "FND_FV_CUSIP_NUMBER_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FND_FV_TICKER_SYMBOL"
+										},
+										"sink": {
+											"name": "FND_FV_TICKER_SYMBOL",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FND_FV_TICKER_SYMBOL_UPPER"
+										},
+										"sink": {
+											"name": "FND_FV_TICKER_SYMBOL_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FND_FV_ISIN_NUM"
+										},
+										"sink": {
+											"name": "FND_FV_ISIN_NUM",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FND_FV_ISIN_NUM_UPPER"
+										},
+										"sink": {
+											"name": "FND_FV_ISIN_NUM_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FND_FV_SMS_NUM"
+										},
+										"sink": {
+											"name": "FND_FV_SMS_NUM",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FND_FV_SMS_NUM_UPPER"
+										},
+										"sink": {
+											"name": "FND_FV_SMS_NUM_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FND_FV_TITAN_NUM"
+										},
+										"sink": {
+											"name": "FND_FV_TITAN_NUM",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FND_FV_TITAN_NUM_UPPER"
+										},
+										"sink": {
+											"name": "FND_FV_TITAN_NUM_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FND_FV_CDSC"
+										},
+										"sink": {
+											"name": "FND_FV_CDSC",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "FND_FV_LEGAL_NAME"
+										},
+										"sink": {
+											"name": "FND_FV_LEGAL_NAME",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FND_FV_LEGAL_NAME_UPPER"
+										},
+										"sink": {
+											"name": "FND_FV_LEGAL_NAME_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FND_FV_CLASS_NAME"
+										},
+										"sink": {
+											"name": "FND_FV_CLASS_NAME",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FND_FV_CLASS_NAME_UPPER"
+										},
+										"sink": {
+											"name": "FND_FV_CLASS_NAME_UPPER",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SHFA_WHEN_CREATED"
+										},
+										"sink": {
+											"name": "SHFA_WHEN_CREATED",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "SHFA_WHEN_UPDATED"
+										},
+										"sink": {
+											"name": "SHFA_WHEN_UPDATED",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "SHFA_WHO_CREATED"
+										},
+										"sink": {
+											"name": "SHFA_WHO_CREATED",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SHFA_WHO_UPDATED"
+										},
+										"sink": {
+											"name": "SHFA_WHO_UPDATED",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SHFA_GEJL_START_TIME"
+										},
+										"sink": {
+											"name": "SHFA_GEJL_START_TIME",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "SHFA_GEJL_END_TIME"
+										},
+										"sink": {
+											"name": "SHFA_GEJL_END_TIME",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "ACCT_DTLS_WHEN_UPDATED"
+										},
+										"sink": {
+											"name": "ACCT_DTLS_WHEN_UPDATED",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "SHLR_WHEN_UPDATED"
+										},
+										"sink": {
+											"name": "SHLR_WHEN_UPDATED",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDR_WHEN_UPDATED"
+										},
+										"sink": {
+											"name": "ADDR_WHEN_UPDATED",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "POSN_WHEN_UPDATED"
+										},
+										"sink": {
+											"name": "POSN_WHEN_UPDATED",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDR_SYS_NO"
+										},
+										"sink": {
+											"name": "ADDR_SYS_NO",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "FUND_WHEN_UPDATED"
+										},
+										"sink": {
+											"name": "FUND_WHEN_UPDATED",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "ACCT_ORG_ID"
+										},
+										"sink": {
+											"name": "ACCT_ORG_ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACCT_BK_ID"
+										},
+										"sink": {
+											"name": "ACCT_BK_ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ACCT_ACCT_ID_CHAR"
+										},
+										"sink": {
+											"name": "ACCT_ACCT_ID_CHAR",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FARE_YTD_PURCHASES"
+										},
+										"sink": {
+											"name": "FARE_YTD_PURCHASES",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "FARE_YTD_REDEMPTIONS"
+										},
+										"sink": {
+											"name": "FARE_YTD_REDEMPTIONS",
+											"type": "Decimal"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "OracleTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/OracleTable1')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
+			]
+		}
+	]
+}
