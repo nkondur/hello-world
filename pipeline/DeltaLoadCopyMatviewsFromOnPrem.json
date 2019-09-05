@@ -164,7 +164,7 @@
 								"storedProcedureParameters": {
 									"ActivityTask": {
 										"value": {
-											"value": "@split(variables('var_logging'),'|')[0]",
+											"value": "@split(string(variables('var_logging')),'|')[0]",
 											"type": "Expression"
 										},
 										"type": "String"
