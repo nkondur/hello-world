@@ -164,7 +164,7 @@
 								"storedProcedureParameters": {
 									"ActivityTask": {
 										"value": {
-											"value": "activity('IncrementalCopyMatViews').Status",
+											"value": "@activity('IncrementalCopyMatViews').Status",
 											"type": "Expression"
 										},
 										"type": "String"
