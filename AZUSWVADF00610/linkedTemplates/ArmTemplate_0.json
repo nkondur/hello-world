@@ -1303,13 +1303,6 @@
 												},
 												"type": "String"
 											},
-											"ActivityTaskLogTime": {
-												"value": {
-													"value": "split(@item(),'|')[14]",
-													"type": "Expression"
-												},
-												"type": "DateTime"
-											},
 											"ActivityType": {
 												"value": {
 													"value": "split(@item(),'|')[1]",
@@ -1423,7 +1416,7 @@
 									"typeProperties": {
 										"variableName": "var_logging",
 										"value": {
-											"value": "var_logging = \n@concat('IncrementalCopyMatViews','|'\n,'Copy','|'\n,pipeline().DataFactory,'|'\n,activity('IncrementalCopyMatViews').Duration,'|'\n,activity('IncrementalCopyMatViews').Error,'|'\n,activity('IncrementalCopyMatViews').ExecutionDetails,'|'\n,activity('IncrementalCopyMatViews').ExecutionEndTime,'|'\n,activity('IncrementalCopyMatViews').ExecutionStartTime,'|'\n,activity('IncrementalCopyMatViews').JobId,'|'\n,activity('IncrementalCopyMatViews').Output,'|'\n,pipeline().Pipeline,'|'\n,activity('IncrementalCopyMatViews').ActivityRunId,'|'\n,activity('IncrementalCopyMatViews').Status,'|'\n,activity('IncrementalCopyMatViews').StatusCode,'|'\n,activity('IncrementalCopyMatViews').ActivityTaskLogTime)",
+											"value": "var_logging = \n@concat('IncrementalCopyMatViews','|'\n,'Copy','|'\n,pipeline().DataFactory,'|'\n,activity('IncrementalCopyMatViews').Duration,'|'\n,activity('IncrementalCopyMatViews').Error,'|'\n,activity('IncrementalCopyMatViews').ExecutionDetails,'|'\n,activity('IncrementalCopyMatViews').ExecutionEndTime,'|'\n,activity('IncrementalCopyMatViews').ExecutionStartTime,'|'\n,activity('IncrementalCopyMatViews').JobId,'|'\n,activity('IncrementalCopyMatViews').Output,'|'\n,pipeline().Pipeline,'|'\n,activity('IncrementalCopyMatViews').ActivityRunId,'|'\n,activity('IncrementalCopyMatViews').Status,'|'\n,activity('IncrementalCopyMatViews').StatusCode)",
 											"type": "Expression"
 										}
 									}
