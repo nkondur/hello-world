@@ -76,7 +76,9 @@
 									},
 									"disableMetricsCollection": false
 								},
-								"enableStaging": false
+								"enableStaging": false,
+								"parallelCopies": 8,
+								"dataIntegrationUnits": 32
 							},
 							"inputs": [
 								{
