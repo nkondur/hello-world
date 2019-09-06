@@ -1122,10 +1122,6 @@
 										},
 										"sink": {
 											"type": "AzureSqlSink",
-											"preCopyScript": {
-												"value": "truncate table @{item().Sink_Table_Upsert}",
-												"type": "Expression"
-											},
 											"disableMetricsCollection": false
 										},
 										"enableStaging": false,
