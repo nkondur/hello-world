@@ -29,6 +29,256 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/BulkLoadMatviewsFromOnPremtoCloud')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupUSDEMatViews",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select * from dbo.LookupUSDEMatViews",
+									"type": "Expression"
+								}
+							},
+							"dataset": {
+								"referenceName": "DestinationDataset_0x8",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEachMatview",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "LookupUSDEMatViews",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('LookupUSDEMatViews').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "BulkCopyMatViews",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "OracleSource",
+											"oracleReaderQuery": {
+												"value": "SELECT * FROM @{item().MatviewName}",
+												"type": "Expression"
+											},
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "AzureSqlSink",
+											"preCopyScript": {
+												"value": "truncate table @{item().Sink_Table_Upsert}",
+												"type": "Expression"
+											},
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false,
+										"parallelCopies": 8,
+										"dataIntegrationUnits": 32
+									},
+									"inputs": [
+										{
+											"referenceName": "OracleTable1",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "SQL",
+											"type": "DatasetReference",
+											"parameters": {
+												"TableName": {
+													"value": "@{item().Destination_Table_Name}",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								},
+								{
+									"name": "Logging SQL",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "BulkCopyMatViews",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[sp_adf_pipeline_log_update]",
+										"storedProcedureParameters": {
+											"ActivityTask": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').Status",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"ActivityType": {
+												"value": "BulkCopyMatViews",
+												"type": "String"
+											},
+											"DataFactory": {
+												"value": {
+													"value": "@pipeline().DataFactory",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Duration": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').Duration",
+													"type": "Expression"
+												},
+												"type": "TimeSpan"
+											},
+											"Error": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').Error",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"ExecutionDetails": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').ExecutionDetails",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"ExecutionEndTime": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').ExecutionEndTime",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"ExecutionStartTime": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').ExecutionStartTime",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"JobId": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').JobId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Output": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').Output",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Pipeline": {
+												"value": {
+													"value": "@pipeline().Pipeline",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"RunId": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').ActivityRunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Status": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').Status",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"StatusCode": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').StatusCode",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "SQL1",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						}
+					}
+				],
+				"variables": {
+					"var_logging": {
+						"type": "Array",
+						"defaultValue": [
+							"1"
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_0x8')]",
+				"[concat(variables('factoryId'), '/datasets/OracleTable1')]",
+				"[concat(variables('factoryId'), '/datasets/SQL')]",
+				"[concat(variables('factoryId'), '/linkedServices/SQL1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/CopyPipeline_0x8')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -879,6 +1129,23 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/OracleSourceDatasetEntity1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Oracle1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "OracleTable",
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Oracle1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/OracleTable1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1418,271 +1685,6 @@
 				"typeProperties": {}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/OracleSourceDatasetEntity1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Oracle1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "OracleTable",
-				"typeProperties": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Oracle1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/BulkLoadMatviewsFromOnPremtoCloud')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "LookupUSDEMatViews",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": {
-									"value": "select * from dbo.LookupUSDEMatViews",
-									"type": "Expression"
-								}
-							},
-							"dataset": {
-								"referenceName": "DestinationDataset_0x8",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "ForEachMatview",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "LookupUSDEMatViews",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('LookupUSDEMatViews').output.value",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "BulkCopyMatViews",
-									"type": "Copy",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "7.00:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"source": {
-											"type": "OracleSource",
-											"oracleReaderQuery": {
-												"value": "SELECT * FROM @{item().MatviewName}",
-												"type": "Expression"
-											},
-											"partitionOption": "None"
-										},
-										"sink": {
-											"type": "AzureSqlSink",
-											"preCopyScript": {
-												"value": "truncate table @{item().Sink_Table_Upsert}",
-												"type": "Expression"
-											},
-											"disableMetricsCollection": false
-										},
-										"enableStaging": false
-									},
-									"inputs": [
-										{
-											"referenceName": "OracleTable1",
-											"type": "DatasetReference",
-											"parameters": {}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "SQL",
-											"type": "DatasetReference",
-											"parameters": {
-												"TableName": {
-													"value": "@{item().Destination_Table_Name}",
-													"type": "Expression"
-												}
-											}
-										}
-									]
-								},
-								{
-									"name": "Logging SQL",
-									"type": "SqlServerStoredProcedure",
-									"dependsOn": [
-										{
-											"activity": "BulkCopyMatViews",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"policy": {
-										"timeout": "7.00:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"storedProcedureName": "[[dbo].[sp_adf_pipeline_log_update]",
-										"storedProcedureParameters": {
-											"ActivityTask": {
-												"value": {
-													"value": "@activity('BulkCopyMatViews').Status",
-													"type": "Expression"
-												},
-												"type": "String"
-											},
-											"ActivityType": {
-												"value": "BulkCopyMatViews",
-												"type": "String"
-											},
-											"DataFactory": {
-												"value": {
-													"value": "@pipeline().DataFactory",
-													"type": "Expression"
-												},
-												"type": "String"
-											},
-											"Duration": {
-												"value": {
-													"value": "@activity('BulkCopyMatViews').Duration",
-													"type": "Expression"
-												},
-												"type": "TimeSpan"
-											},
-											"Error": {
-												"value": {
-													"value": "@activity('BulkCopyMatViews').Error",
-													"type": "Expression"
-												},
-												"type": "String"
-											},
-											"ExecutionDetails": {
-												"value": {
-													"value": "@activity('BulkCopyMatViews').ExecutionDetails",
-													"type": "Expression"
-												},
-												"type": "String"
-											},
-											"ExecutionEndTime": {
-												"value": {
-													"value": "@activity('BulkCopyMatViews').ExecutionEndTime",
-													"type": "Expression"
-												},
-												"type": "DateTime"
-											},
-											"ExecutionStartTime": {
-												"value": {
-													"value": "@activity('BulkCopyMatViews').ExecutionStartTime",
-													"type": "Expression"
-												},
-												"type": "DateTime"
-											},
-											"JobId": {
-												"value": {
-													"value": "@activity('BulkCopyMatViews').JobId",
-													"type": "Expression"
-												},
-												"type": "String"
-											},
-											"Output": {
-												"value": {
-													"value": "@activity('BulkCopyMatViews').Output",
-													"type": "Expression"
-												},
-												"type": "String"
-											},
-											"Pipeline": {
-												"value": {
-													"value": "@pipeline().Pipeline",
-													"type": "Expression"
-												},
-												"type": "String"
-											},
-											"RunId": {
-												"value": {
-													"value": "@activity('BulkCopyMatViews').ActivityRunId",
-													"type": "Expression"
-												},
-												"type": "String"
-											},
-											"Status": {
-												"value": {
-													"value": "@activity('BulkCopyMatViews').Status",
-													"type": "Expression"
-												},
-												"type": "String"
-											},
-											"StatusCode": {
-												"value": {
-													"value": "@activity('BulkCopyMatViews').StatusCode",
-													"type": "Expression"
-												},
-												"type": "String"
-											}
-										}
-									},
-									"linkedServiceName": {
-										"referenceName": "SQL1",
-										"type": "LinkedServiceReference"
-									}
-								}
-							]
-						}
-					}
-				],
-				"variables": {
-					"var_logging": {
-						"type": "Array",
-						"defaultValue": [
-							"1"
-						]
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DestinationDataset_0x8')]",
-				"[concat(variables('factoryId'), '/datasets/OracleTable1')]",
-				"[concat(variables('factoryId'), '/datasets/SQL')]",
-				"[concat(variables('factoryId'), '/linkedServices/SQL1')]"
-			]
 		}
 	]
 }
