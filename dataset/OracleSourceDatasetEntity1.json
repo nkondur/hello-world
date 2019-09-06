@@ -1,0 +1,11 @@
+{
+	"name": "OracleSourceDatasetEntity1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Oracle1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable"
+	}
+}
