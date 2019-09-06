@@ -72,9 +72,7 @@
 									"type": "AzureSqlSink",
 									"disableMetricsCollection": false
 								},
-								"enableStaging": false,
-								"parallelCopies": 8,
-								"dataIntegrationUnits": 32
+								"enableStaging": false
 							},
 							"inputs": [
 								{
