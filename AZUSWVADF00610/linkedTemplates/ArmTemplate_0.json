@@ -1031,6 +1031,23 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/OracleSourceDatasetEntity1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Oracle1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "OracleTable",
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Oracle1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/CopyPipeline_0x8')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1420,14 +1437,14 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"name": "[concat(parameters('factoryName'), '/BulkLoadMatviewsFromOnPremtoCloud')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy Data1",
-						"type": "Copy",
+						"name": "LookupUSDEMatViews",
+						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
@@ -1439,888 +1456,232 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "OracleSource",
-								"oracleReaderQuery": "SELECT * FROM MV_SH_FUND_ACCT_LINK\nMINUS\nSELECT * FROM GID_SH_FUND_ACCT_LINK_CURR",
-								"partitionOption": "None"
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select * from dbo.LookupUSDEMatViews",
+									"type": "Expression"
+								}
 							},
-							"sink": {
-								"type": "AzureSqlSink"
+							"dataset": {
+								"referenceName": "DestinationDataset_0x8",
+								"type": "DatasetReference",
+								"parameters": {}
 							},
-							"enableStaging": false,
-							"parallelCopies": 10,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "ACC_SYS_NO"
-										},
-										"sink": {
-											"name": "ACC_SYS_NO",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "SHLR_TAX_ID"
-										},
-										"sink": {
-											"name": "SHLR_TAX_ID",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_NBR_LGCY"
-										},
-										"sink": {
-											"name": "ACC_NBR_LGCY",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_NBR_LGCY_UPPER"
-										},
-										"sink": {
-											"name": "ACC_NBR_LGCY_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "INSTR_ID"
-										},
-										"sink": {
-											"name": "INSTR_ID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_REPR_SYS_NO"
-										},
-										"sink": {
-											"name": "ACC_REPR_SYS_NO",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_AARL_ACCT_NBR"
-										},
-										"sink": {
-											"name": "ACC_AARL_ACCT_NBR",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "SHLR_SYS_NO"
-										},
-										"sink": {
-											"name": "SHLR_SYS_NO",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_ID_DLR_ACCT"
-										},
-										"sink": {
-											"name": "ACC_ID_DLR_ACCT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_ID_DLR_ACCT_UPPER"
-										},
-										"sink": {
-											"name": "ACC_ID_DLR_ACCT_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_MATRIX_CD"
-										},
-										"sink": {
-											"name": "ACC_MATRIX_CD",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_OWNER_SOCIAL_CD"
-										},
-										"sink": {
-											"name": "ACC_OWNER_SOCIAL_CD",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_MAIL_CD"
-										},
-										"sink": {
-											"name": "ACC_MAIL_CD",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SHLR_CUST_NM_1"
-										},
-										"sink": {
-											"name": "SHLR_CUST_NM_1",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SHLR_CUST_NM_2"
-										},
-										"sink": {
-											"name": "SHLR_CUST_NM_2",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SHLR_CUST_NM_3"
-										},
-										"sink": {
-											"name": "SHLR_CUST_NM_3",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SHLR_CUST_NM_4"
-										},
-										"sink": {
-											"name": "SHLR_CUST_NM_4",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SHLR_DTOFBIRTH"
-										},
-										"sink": {
-											"name": "SHLR_DTOFBIRTH",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "ADDR_DAY_TELEPHONE"
-										},
-										"sink": {
-											"name": "ADDR_DAY_TELEPHONE",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ADDR_ALT_TELEPHONE"
-										},
-										"sink": {
-											"name": "ADDR_ALT_TELEPHONE",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_TELE_AUTH_ID"
-										},
-										"sink": {
-											"name": "ACC_TELE_AUTH_ID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_STATUS_CD"
-										},
-										"sink": {
-											"name": "ACC_STATUS_CD",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_TYPE_CD"
-										},
-										"sink": {
-											"name": "ACC_TYPE_CD",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_OPEN_DT"
-										},
-										"sink": {
-											"name": "ACC_OPEN_DT",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_MAINT_DT"
-										},
-										"sink": {
-											"name": "ACC_MAINT_DT",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_LST_VAL_TXN_DT"
-										},
-										"sink": {
-											"name": "ACC_LST_VAL_TXN_DT",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "POSN_ISSUED_SHARE_QTY"
-										},
-										"sink": {
-											"name": "POSN_ISSUED_SHARE_QTY",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "POSN_UNISSUED_SHARE_QTY"
-										},
-										"sink": {
-											"name": "POSN_UNISSUED_SHARE_QTY",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "FARE_SHARE_BALANCE"
-										},
-										"sink": {
-											"name": "FARE_SHARE_BALANCE",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "SHLR_NM_1"
-										},
-										"sink": {
-											"name": "SHLR_NM_1",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SHLR_NM_2"
-										},
-										"sink": {
-											"name": "SHLR_NM_2",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SHLR_NM_3"
-										},
-										"sink": {
-											"name": "SHLR_NM_3",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SHLR_NM_4"
-										},
-										"sink": {
-											"name": "SHLR_NM_4",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SHLR_NM_5"
-										},
-										"sink": {
-											"name": "SHLR_NM_5",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ADDR_DESC_LINE_5"
-										},
-										"sink": {
-											"name": "ADDR_DESC_LINE_5",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SHLR_PERSON_TYPE_CD"
-										},
-										"sink": {
-											"name": "SHLR_PERSON_TYPE_CD",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ADDR_TR_STREET_NUMBER_UPPER"
-										},
-										"sink": {
-											"name": "ADDR_TR_STREET_NUMBER_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ADDR_TR_STREET_NAME_UPPER"
-										},
-										"sink": {
-											"name": "ADDR_TR_STREET_NAME_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ADDR_TR_STREET_QUALIF_UPPER"
-										},
-										"sink": {
-											"name": "ADDR_TR_STREET_QUALIF_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ADDR_TR_STREET_DIR_UPPER"
-										},
-										"sink": {
-											"name": "ADDR_TR_STREET_DIR_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ADDR_TR_STREET_TFARE_UPPER"
-										},
-										"sink": {
-											"name": "ADDR_TR_STREET_TFARE_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ADDR_TR_RURAL_UPPER"
-										},
-										"sink": {
-											"name": "ADDR_TR_RURAL_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ADDR_TR_CITY_UPPER"
-										},
-										"sink": {
-											"name": "ADDR_TR_CITY_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ADDR_TR_STATE_CD_UPPER"
-										},
-										"sink": {
-											"name": "ADDR_TR_STATE_CD_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ADDR_TR_ZIP_CD_PLUS_FOUR_UPPER"
-										},
-										"sink": {
-											"name": "ADDR_TR_ZIP_CD_PLUS_FOUR_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ADDR_TR_PROVINCE_CD_UPPER"
-										},
-										"sink": {
-											"name": "ADDR_TR_PROVINCE_CD_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ADDR_TR_POSTAL_CD_UPPER"
-										},
-										"sink": {
-											"name": "ADDR_TR_POSTAL_CD_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ADDR_TR_COUNTRY_CD_UPPER"
-										},
-										"sink": {
-											"name": "ADDR_TR_COUNTRY_CD_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SHLR_TR_FIRST_NAME_UPPER"
-										},
-										"sink": {
-											"name": "SHLR_TR_FIRST_NAME_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SHLR_TR_MIDDLE_NAME_UPPER"
-										},
-										"sink": {
-											"name": "SHLR_TR_MIDDLE_NAME_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SHLR_TR_LAST_NAME_UPPER"
-										},
-										"sink": {
-											"name": "SHLR_TR_LAST_NAME_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SHLR_TR_NON_INDIV_NAME_UPPER"
-										},
-										"sink": {
-											"name": "SHLR_TR_NON_INDIV_NAME_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_DLR_CLRG_ID_UPPER"
-										},
-										"sink": {
-											"name": "ACC_DLR_CLRG_ID_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_DLR_TPA_ID_UPPER"
-										},
-										"sink": {
-											"name": "ACC_DLR_TPA_ID_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_TRUST_ID_UPPER"
-										},
-										"sink": {
-											"name": "ACC_TRUST_ID_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_DELR_NBR"
-										},
-										"sink": {
-											"name": "ACC_DELR_NBR",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_BRCH_NBR"
-										},
-										"sink": {
-											"name": "ACC_BRCH_NBR",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_REPR_NBR"
-										},
-										"sink": {
-											"name": "ACC_REPR_NBR",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_DELR_SYS_NO"
-										},
-										"sink": {
-											"name": "ACC_DELR_SYS_NO",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "ACC_BRCH_SYS_NO"
-										},
-										"sink": {
-											"name": "ACC_BRCH_SYS_NO",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "FND_FV_TA_NUMBER"
-										},
-										"sink": {
-											"name": "FND_FV_TA_NUMBER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "FND_FV_TA_NUMBER_UPPER"
-										},
-										"sink": {
-											"name": "FND_FV_TA_NUMBER_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "FND_FV_CUSIP_NUMBER"
-										},
-										"sink": {
-											"name": "FND_FV_CUSIP_NUMBER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "FND_FV_CUSIP_NUMBER_UPPER"
-										},
-										"sink": {
-											"name": "FND_FV_CUSIP_NUMBER_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "FND_FV_TICKER_SYMBOL"
-										},
-										"sink": {
-											"name": "FND_FV_TICKER_SYMBOL",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "FND_FV_TICKER_SYMBOL_UPPER"
-										},
-										"sink": {
-											"name": "FND_FV_TICKER_SYMBOL_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "FND_FV_ISIN_NUM"
-										},
-										"sink": {
-											"name": "FND_FV_ISIN_NUM",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "FND_FV_ISIN_NUM_UPPER"
-										},
-										"sink": {
-											"name": "FND_FV_ISIN_NUM_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "FND_FV_SMS_NUM"
-										},
-										"sink": {
-											"name": "FND_FV_SMS_NUM",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "FND_FV_SMS_NUM_UPPER"
-										},
-										"sink": {
-											"name": "FND_FV_SMS_NUM_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "FND_FV_TITAN_NUM"
-										},
-										"sink": {
-											"name": "FND_FV_TITAN_NUM",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "FND_FV_TITAN_NUM_UPPER"
-										},
-										"sink": {
-											"name": "FND_FV_TITAN_NUM_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "FND_FV_CDSC"
-										},
-										"sink": {
-											"name": "FND_FV_CDSC",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "FND_FV_LEGAL_NAME"
-										},
-										"sink": {
-											"name": "FND_FV_LEGAL_NAME",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "FND_FV_LEGAL_NAME_UPPER"
-										},
-										"sink": {
-											"name": "FND_FV_LEGAL_NAME_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "FND_FV_CLASS_NAME"
-										},
-										"sink": {
-											"name": "FND_FV_CLASS_NAME",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "FND_FV_CLASS_NAME_UPPER"
-										},
-										"sink": {
-											"name": "FND_FV_CLASS_NAME_UPPER",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SHFA_WHEN_CREATED"
-										},
-										"sink": {
-											"name": "SHFA_WHEN_CREATED",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "SHFA_WHEN_UPDATED"
-										},
-										"sink": {
-											"name": "SHFA_WHEN_UPDATED",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "SHFA_WHO_CREATED"
-										},
-										"sink": {
-											"name": "SHFA_WHO_CREATED",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SHFA_WHO_UPDATED"
-										},
-										"sink": {
-											"name": "SHFA_WHO_UPDATED",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SHFA_GEJL_START_TIME"
-										},
-										"sink": {
-											"name": "SHFA_GEJL_START_TIME",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "SHFA_GEJL_END_TIME"
-										},
-										"sink": {
-											"name": "SHFA_GEJL_END_TIME",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "ACCT_DTLS_WHEN_UPDATED"
-										},
-										"sink": {
-											"name": "ACCT_DTLS_WHEN_UPDATED",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "SHLR_WHEN_UPDATED"
-										},
-										"sink": {
-											"name": "SHLR_WHEN_UPDATED",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "ADDR_WHEN_UPDATED"
-										},
-										"sink": {
-											"name": "ADDR_WHEN_UPDATED",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "POSN_WHEN_UPDATED"
-										},
-										"sink": {
-											"name": "POSN_WHEN_UPDATED",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "ADDR_SYS_NO"
-										},
-										"sink": {
-											"name": "ADDR_SYS_NO",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "FUND_WHEN_UPDATED"
-										},
-										"sink": {
-											"name": "FUND_WHEN_UPDATED",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "ACCT_ORG_ID"
-										},
-										"sink": {
-											"name": "ACCT_ORG_ID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACCT_BK_ID"
-										},
-										"sink": {
-											"name": "ACCT_BK_ID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACCT_ACCT_ID_CHAR"
-										},
-										"sink": {
-											"name": "ACCT_ACCT_ID_CHAR",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "FARE_YTD_PURCHASES"
-										},
-										"sink": {
-											"name": "FARE_YTD_PURCHASES",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "FARE_YTD_REDEMPTIONS"
-										},
-										"sink": {
-											"name": "FARE_YTD_REDEMPTIONS",
-											"type": "Decimal"
-										}
-									}
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEachMatview",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "LookupUSDEMatViews",
+								"dependencyConditions": [
+									"Succeeded"
 								]
 							}
-						},
-						"inputs": [
-							{
-								"referenceName": "OracleTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
 						],
-						"outputs": [
-							{
-								"referenceName": "AzureSqlTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('LookupUSDEMatViews').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "BulkCopyMatViews",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "OracleSource",
+											"oracleReaderQuery": {
+												"value": "SELECT * FROM @{item().MatviewName}",
+												"type": "Expression"
+											},
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "AzureSqlSink",
+											"preCopyScript": {
+												"value": "truncate table @{item().Sink_Table_Upsert}",
+												"type": "Expression"
+											},
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "OracleTable1",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "SQL",
+											"type": "DatasetReference",
+											"parameters": {
+												"TableName": {
+													"value": "@{item().Destination_Table_Name}",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								},
+								{
+									"name": "Logging SQL",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "BulkCopyMatViews",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[sp_adf_pipeline_log_update]",
+										"storedProcedureParameters": {
+											"ActivityTask": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').Status",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"ActivityType": {
+												"value": "BulkCopyMatViews",
+												"type": "String"
+											},
+											"DataFactory": {
+												"value": {
+													"value": "@pipeline().DataFactory",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Duration": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').Duration",
+													"type": "Expression"
+												},
+												"type": "TimeSpan"
+											},
+											"Error": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').Error",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"ExecutionDetails": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').ExecutionDetails",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"ExecutionEndTime": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').ExecutionEndTime",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"ExecutionStartTime": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').ExecutionStartTime",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"JobId": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').JobId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Output": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').Output",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Pipeline": {
+												"value": {
+													"value": "@pipeline().Pipeline",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"RunId": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').ActivityRunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Status": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').Status",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"StatusCode": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').StatusCode",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "SQL1",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						}
 					}
 				],
+				"variables": {
+					"var_logging": {
+						"type": "Array",
+						"defaultValue": [
+							"1"
+						]
+					}
+				},
 				"annotations": []
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_0x8')]",
 				"[concat(variables('factoryId'), '/datasets/OracleTable1')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
+				"[concat(variables('factoryId'), '/datasets/SQL')]",
+				"[concat(variables('factoryId'), '/linkedServices/SQL1')]"
 			]
 		}
 	]
