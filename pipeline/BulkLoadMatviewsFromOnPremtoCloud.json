@@ -74,7 +74,6 @@
 										"value": "truncate table @{item().Sink_Table_Upsert}",
 										"type": "Expression"
 									},
-									"sqlWriterStoredProcedureName": "[dbo].[spMergeStageToTarget]",
 									"disableMetricsCollection": false
 								},
 								"enableStaging": false
@@ -105,7 +104,7 @@
 								{
 									"activity": "BulkCopyMatViews",
 									"dependencyConditions": [
-										"Completed"
+										"Succeeded"
 									]
 								}
 							],
