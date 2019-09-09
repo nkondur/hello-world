@@ -134,7 +134,7 @@
 										{
 											"activity": "BulkCopyMatViews",
 											"dependencyConditions": [
-												"Succeeded"
+												"Completed"
 											]
 										}
 									],
