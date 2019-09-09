@@ -28,48 +28,7 @@
 					"sink": {
 						"type": "AzureSqlSink"
 					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "POS_ID"
-								},
-								"sink": {
-									"name": "POS_ID",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "ORG_ID"
-								},
-								"sink": {
-									"name": "ORG_ID",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "BK_ID"
-								},
-								"sink": {
-									"name": "BK_ID",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "ACCT_ID"
-								},
-								"sink": {
-									"name": "ACCT_ID",
-									"type": "String"
-								}
-							}
-						]
-					}
+					"enableStaging": false
 				},
 				"inputs": [
 					{
