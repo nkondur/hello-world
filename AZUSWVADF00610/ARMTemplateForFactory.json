@@ -244,7 +244,7 @@
 												},
 												"type": "String"
 											},
-											"stage_table_name": {
+											"StageTableName": {
 												"value": {
 													"value": "@{item().Destination_Table_Name}",
 													"type": "Expression"
