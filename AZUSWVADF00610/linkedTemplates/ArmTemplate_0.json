@@ -1658,6 +1658,130 @@
 										"referenceName": "SQL1",
 										"type": "LinkedServiceReference"
 									}
+								},
+								{
+									"name": "LoggingDestinationTableMetadata",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "spMergeStageToTarget",
+											"dependencyConditions": [
+												"Completed"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[sp_adf_pipeline_log_update]",
+										"storedProcedureParameters": {
+											"ActivityTask": {
+												"value": {
+													"value": "@activity('spMergeStageToTarget').Status",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"ActivityType": {
+												"value": "MergeStageTarget",
+												"type": "String"
+											},
+											"DataFactory": {
+												"value": {
+													"value": "@pipeline().DataFactory",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Duration": {
+												"value": {
+													"value": "@activity('spMergeStageToTarget').Duration",
+													"type": "Expression"
+												},
+												"type": "TimeSpan"
+											},
+											"Error": {
+												"value": {
+													"value": "@activity('spMergeStageToTarget').Error",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"ExecutionDetails": {
+												"value": {
+													"value": "@activity('spMergeStageToTarget').ExecutionDetails",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"ExecutionEndTime": {
+												"value": {
+													"value": "@activity('spMergeStageToTarget').ExecutionEndTime",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"ExecutionStartTime": {
+												"value": {
+													"value": "@activity('spMergeStageToTarget').ExecutionStartTime",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"JobId": {
+												"value": {
+													"value": "@activity('spMergeStageToTarget').JobId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Output": {
+												"value": {
+													"value": "@activity('IncrementalCopyMatViews').Output",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Pipeline": {
+												"value": {
+													"value": "@pipeline().Pipeline",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"RunId": {
+												"value": {
+													"value": "@activity('spMergeStageToTarget').ActivityRunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Status": {
+												"value": {
+													"value": "@activity('spMergeStageToTarget').Status",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"StatusCode": {
+												"value": {
+													"value": "@activity('spMergeStageToTarget').StatusCode",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "SQL1",
+										"type": "LinkedServiceReference"
+									}
 								}
 							]
 						}
