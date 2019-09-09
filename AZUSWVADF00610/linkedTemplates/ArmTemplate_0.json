@@ -1651,6 +1651,13 @@
 													"type": "Expression"
 												},
 												"type": "String"
+											},
+											"stage_table_name": {
+												"value": {
+													"value": "@{item().Sink_Table_Upsert}",
+													"type": "Expression"
+												},
+												"type": "String"
 											}
 										}
 									},
