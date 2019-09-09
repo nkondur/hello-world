@@ -22,7 +22,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "select pos_id,org_id,bk_id,acct_id from ft_o_posn",
+						"oracleReaderQuery": "select * from MV_FA_SALE_CON_DTLS where rownum<1000",
 						"partitionOption": "None"
 					},
 					"sink": {
@@ -73,14 +73,17 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceDataset_0x8",
+						"referenceName": "OracleTable1",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "DestinationDataset_0x8",
-						"type": "DatasetReference"
+						"referenceName": "SQL",
+						"type": "DatasetReference",
+						"parameters": {
+							"TableName": "MV_FA_SALE_CON_DTLS"
+						}
 					}
 				]
 			}
