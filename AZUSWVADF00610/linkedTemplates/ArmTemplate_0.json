@@ -1262,6 +1262,13 @@
 													"type": "Expression"
 												},
 												"type": "String"
+											},
+											"stage_table_name": {
+												"value": {
+													"value": "@{item().Destination_Table_Name}",
+													"type": "Expression"
+												},
+												"type": "String"
 											}
 										}
 									},
