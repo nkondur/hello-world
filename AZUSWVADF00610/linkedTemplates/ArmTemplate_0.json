@@ -1328,67 +1328,28 @@
 						"typeProperties": {
 							"source": {
 								"type": "OracleSource",
-								"oracleReaderQuery": "select pos_id,org_id,bk_id,acct_id from ft_o_posn",
+								"oracleReaderQuery": "select * from MV_FA_SALE_CON_DTLS where rownum<1000",
 								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
 							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "POS_ID"
-										},
-										"sink": {
-											"name": "POS_ID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ORG_ID"
-										},
-										"sink": {
-											"name": "ORG_ID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "BK_ID"
-										},
-										"sink": {
-											"name": "BK_ID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ACCT_ID"
-										},
-										"sink": {
-											"name": "ACCT_ID",
-											"type": "String"
-										}
-									}
-								]
-							}
+							"enableStaging": false
 						},
 						"inputs": [
 							{
-								"referenceName": "SourceDataset_0x8",
+								"referenceName": "OracleTable1",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "DestinationDataset_0x8",
+								"referenceName": "SQL",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"TableName": "MV_FA_SALE_CON_DTLS"
+								}
 							}
 						]
 					}
@@ -1396,8 +1357,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SourceDataset_0x8')]",
-				"[concat(variables('factoryId'), '/datasets/DestinationDataset_0x8')]"
+				"[concat(variables('factoryId'), '/datasets/OracleTable1')]",
+				"[concat(variables('factoryId'), '/datasets/SQL')]"
 			]
 		},
 		{
