@@ -66,7 +66,11 @@
 										"value": "SELECT * FROM @{item().MatviewName}",
 										"type": "Expression"
 									},
-									"partitionOption": "None"
+									"partitionOption": "DynamicRange",
+									"partitionSettings": {
+										"partitionUpperBound": "",
+										"partitionLowerBound": ""
+									}
 								},
 								"sink": {
 									"type": "AzureSqlSink",
