@@ -309,7 +309,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "OracleSource",
-								"oracleReaderQuery": "select * from MV_FA_SALE_CON_DTLS where rownum<10000",
+								"oracleReaderQuery": "select * from MV_FA_SALE_CON_DTLS where rownum<1000000",
 								"partitionOption": "None"
 							},
 							"sink": {
