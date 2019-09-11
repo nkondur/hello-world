@@ -1,0 +1,269 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory Name",
+			"defaultValue": "AZUSWVADF00610"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/BulkLoadMatviewsFromOnPremtoCloud')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupUSDEMatViews",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "with destination_table (table_name,status_final,activitytype) as\n(select a.table_name as table_name,a.status as status_final,a.activitytype from LookupUSDEMatViews inner join mv_audit_log a on (a.table_name=destination_table_name and \na.STATUS <> 'SUCCEEDED' and activitytype='BulkCopyMatViews'))\nselect LookupUSDEMatViews.*,destination_table.status_final,destination_table.activitytype from LookupUSDEMatViews,destination_table\nwhere LookupUSDEMatViews.destination_table_name=destination_table.table_name",
+									"type": "Expression"
+								}
+							},
+							"dataset": {
+								"referenceName": "DestinationDataset_0x8",
+								"type": "DatasetReference"
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEachMatview",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "LookupUSDEMatViews",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('LookupUSDEMatViews').output.value",
+								"type": "Expression"
+							},
+							"batchCount": 2,
+							"activities": [
+								{
+									"name": "BulkCopyMatViews",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "OracleSource",
+											"oracleReaderQuery": {
+												"value": "SELECT * FROM @{item().MatviewName}",
+												"type": "Expression"
+											},
+											"partitionOption": "DynamicRange",
+											"partitionSettings": {
+												"partitionUpperBound": "",
+												"partitionLowerBound": ""
+											}
+										},
+										"sink": {
+											"type": "AzureSqlSink",
+											"preCopyScript": {
+												"value": "Update mv_audit_log set status='RUNNING' WHERE status = concat('''',@{item().status_final},'''')",
+												"type": "Expression"
+											},
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "OracleTable1",
+											"type": "DatasetReference"
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "SQL",
+											"type": "DatasetReference",
+											"parameters": {
+												"TableName": {
+													"value": "@{item().Destination_Table_Name}",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								},
+								{
+									"name": "Logging SQL",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "BulkCopyMatViews",
+											"dependencyConditions": [
+												"Completed"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[sp_adf_pipeline_log_update]",
+										"storedProcedureParameters": {
+											"ActivityTask": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').Status",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"ActivityType": {
+												"value": "BulkCopyMatViews",
+												"type": "String"
+											},
+											"DataFactory": {
+												"value": {
+													"value": "@pipeline().DataFactory",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Duration": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').Duration",
+													"type": "Expression"
+												},
+												"type": "TimeSpan"
+											},
+											"Error": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').Error",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"ExecutionDetails": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').ExecutionDetails",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"ExecutionEndTime": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').ExecutionEndTime",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"ExecutionStartTime": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').ExecutionStartTime",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"JobId": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').JobId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Output": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').Output",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Pipeline": {
+												"value": {
+													"value": "@pipeline().Pipeline",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"RunId": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').ActivityRunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Status": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').Status",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"StatusCode": {
+												"value": {
+													"value": "@activity('BulkCopyMatViews').StatusCode",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"StageTableName": {
+												"value": {
+													"value": "@{item().Destination_Table_Name}",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "SQL1",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						}
+					}
+				],
+				"variables": {
+					"var_logging": {
+						"type": "Array",
+						"defaultValue": [
+							"1"
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		}
+	]
+}
