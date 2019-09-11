@@ -46,6 +46,7 @@
 						"value": "@activity('LookupUSDEMatViews').output.value",
 						"type": "Expression"
 					},
+					"batchCount": 2,
 					"activities": [
 						{
 							"name": "BulkCopyMatViews",
@@ -75,7 +76,7 @@
 								"sink": {
 									"type": "AzureSqlSink",
 									"preCopyScript": {
-										"value": "Update mv_audit_log set @{item().status_final}='RUNNING' WHERE @{item().status_final}='STARTED'",
+										"value": "Update mv_audit_log set status_final='RUNNING' WHERE status_final IN ('STARTED','FAILED')",
 										"type": "Expression"
 									},
 									"disableMetricsCollection": false
