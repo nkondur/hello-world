@@ -18,7 +18,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select * from dbo.LookupUSDEMatViews",
+							"value": "with destination_table (table_name,status_final,activitytype) as\n(select a.table_name as table_name,a.status as status_final,a.activitytype from LookupUSDEMatViews inner join mv_audit_log a on (a.table_name=destination_table_name and \na.STATUS <> 'SUCCEEDED' and activitytype='BulkCopyMatViews'))\nselect LookupUSDEMatViews.*,destination_table.status_final,destination_table.activitytype from LookupUSDEMatViews,destination_table\nwhere LookupUSDEMatViews.destination_table_name=destination_table.table_name",
 							"type": "Expression"
 						}
 					},
@@ -74,6 +74,10 @@
 								},
 								"sink": {
 									"type": "AzureSqlSink",
+									"preCopyScript": {
+										"value": "Update mv_audit_log set @{item().status_final}='RUNNING' WHERE @{item().status_final}='STARTED'",
+										"type": "Expression"
+									},
 									"disableMetricsCollection": false
 								},
 								"enableStaging": false
