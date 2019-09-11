@@ -1128,7 +1128,7 @@
 										"sink": {
 											"type": "AzureSqlSink",
 											"preCopyScript": {
-												"value": "Update mv_audit_log set status_final='RUNNING' WHERE status_final IN ('STARTED','FAILED')",
+												"value": "Update mv_audit_log set status='RUNNING' WHERE status IN ('STARTED','FAILED')",
 												"type": "Expression"
 											},
 											"disableMetricsCollection": false
