@@ -76,7 +76,7 @@
 								"sink": {
 									"type": "AzureSqlSink",
 									"preCopyScript": {
-										"value": "Update mv_audit_log set status='RUNNING' WHERE status = concat(\"'\",@{item().status_final},\"'\"}",
+										"value": "Update mv_audit_log set status='RUNNING' WHERE status = concat(''',@{item().status_final},''')",
 										"type": "Expression"
 									},
 									"disableMetricsCollection": false
