@@ -1128,7 +1128,7 @@
 										"sink": {
 											"type": "AzureSqlSink",
 											"preCopyScript": {
-												"value": "@{CONCAT('UPDATE MV_AUDIT_LOG SET STATUS=''RUNNING''',' WHERE STATUS = ','',item().status_final,'',' AND TABLE_NAME= ','',ITEM().DESTINATION_TABLE_NAME,'')}",
+												"value": "@{CONCAT('UPDATE MV_AUDIT_LOG SET STATUS=''RUNNING''',' WHERE STATUS = ','''',item().status_final,'''',' AND TABLE_NAME= ','''',ITEM().DESTINATION_TABLE_NAME,'''')}",
 												"type": "Expression"
 											},
 											"disableMetricsCollection": false
