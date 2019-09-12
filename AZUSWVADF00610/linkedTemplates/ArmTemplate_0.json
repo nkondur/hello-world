@@ -1787,37 +1787,6 @@
 				"[concat(variables('factoryId'), '/datasets/SQL')]",
 				"[concat(variables('factoryId'), '/linkedServices/SQL1')]"
 			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/trigger1')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "BulkLoadMatviewsFromOnPremtoCloud",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Hour",
-						"interval": 6,
-						"startTime": "2019-09-11T12:25:00.000Z",
-						"endTime": "2019-09-13T12:25:00.000Z",
-						"timeZone": "UTC"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/BulkLoadMatviewsFromOnPremtoCloud')]"
-			]
 		}
 	]
 }
