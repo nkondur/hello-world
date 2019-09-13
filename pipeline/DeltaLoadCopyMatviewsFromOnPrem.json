@@ -63,7 +63,7 @@
 								"source": {
 									"type": "OracleSource",
 									"oracleReaderQuery": {
-										"value": "SELECT * FROM @{item().MatviewName} \nminus \nSELECT * FROM @{item().MatviewName_curr}",
+										"value": "SELECT * FROM @{item().MatviewName} \nminus \nSELECT * FROM @{item().MatviewName_curr}\nunion all\nSELECT * FROM @{item().MatviewName_curr}\nminus\nSELECT * FROM @{item().MatviewName} ",
 										"type": "Expression"
 									},
 									"partitionOption": "None"
